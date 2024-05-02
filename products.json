@@ -1,0 +1,14 @@
+[
+    {
+        "id": 1,
+        "name": "iPhone 13 Pro 256Gb",
+        "image": "https://m.media-amazon.com/images/I/619f09kK7tL._AC_UF894,1000_QL80_.jpg",
+        "price": 2500
+    },
+    {
+        "id": 2,
+        "name": "Samsung Galaxy S24 Ultra 512GB",
+        "image": "https://www.bakuelectronics.az/assets/images/products/141509/samsung-galaxy-s24-ultra-19.jpg",
+        "price": 3000
+    }
+]
