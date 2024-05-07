@@ -11,7 +11,7 @@ closeBtn.addEventListener("click", () => {
   cartTab.style.translate = "100% 0";
 });
 
-const cart = [];
+let cart = [];
 
 async function main() {
   const requestData = await fetch("./products.json");
@@ -43,32 +43,45 @@ async function main() {
       });
     }
 
+    cartList.addEventListener("click", ({ target }) => {
+      if (
+        target.classList.contains("plus") ||
+        target.classList.contains("minus")
+      ) {
+        const productId = parseInt(
+          target.parentElement.parentElement.dataset.id
+        );
 
-    cartList.addEventListener('click', ({target}) => {
-      if (target.classList.contains('plus') || target.classList.contains('minus')) {
-        const productId = parseInt(target.parentElement.parentElement.dataset.id);
-
-        const itemId = cart.findIndex(function(item){
-          return item.product_id === productId
+        const itemId = cart.findIndex(function (item) {
+          return item.product_id === productId;
         });
 
-        let type = 'minus';
+        let type = "minus";
 
-        if (target.classList.contains('plus')) {
-          type = 'plus'
+        if (target.classList.contains("plus")) {
+          type = "plus";
         }
 
         changeItemQuantity(itemId, type);
         createCartItemElement();
       }
+
+      if (target.classList.contains("trash")) {
+        const cartItemId = parseInt(target.parentElement.dataset.id);
+        cart = cart.filter((item) => item.product_id !== cartItemId);
+        createCartItemElement();
+      }
     });
   }
 
+  // [{id: 1}, {id: 2}, {id: 3}]
+  // [{id: 1}, {id: 3}]
+
   function changeItemQuantity(id, type) {
-    if (type === 'plus') {
+    if (type === "plus") {
       cart[id].quantity += 1;
     }
-    if (type === 'minus' && cart[id].quantity > 1) {
+    if (type === "minus" && cart[id].quantity > 1) {
       cart[id].quantity -= 1;
     }
   }
@@ -77,34 +90,42 @@ async function main() {
     const existItem = cart.findIndex((item) => {
       return item.product_id === productId;
     });
+    const existItemInfo = datas.find(item => item.id === productId);
+    
     if (cart.length <= 0) {
       cart.push({
         product_id: productId,
         quantity: 1,
+        item_total_price: existItemInfo.price
       });
     } else if (existItem < 0) {
       cart.push({
         product_id: productId,
         quantity: 1,
+        item_total_price: existItemInfo.price
       });
     } else {
       cart[existItem].quantity += 1;
+      cart[existItem].item_total_price = (cart[existItem].quantity * existItemInfo.price);
     }
     createCartItemElement();
-    cartIcon.querySelector('& > span').innerHTML = cart.length;
+    cartIcon.querySelector("& > span").innerHTML = cart.length;
+
+    let totalPrice = 0;
+    cart.forEach((item) => totalPrice += item.item_total_price);
+    cartTab.querySelector('.total_price').innerHTML = totalPrice;
   }
 
   function createCartItemElement() {
-    if (cart.length) {
-      cartList.innerHTML = "";
-      cart.forEach((item) => {
-        const cartItem = document.createElement("div");
-        cartItem.classList.add("cart_item");
-        cartItem.dataset.id = item.product_id;
+    cartList.innerHTML = "";
+    cart.forEach((item) => {
+      const cartItem = document.createElement("div");
+      cartItem.classList.add("cart_item");
+      cartItem.dataset.id = item.product_id;
 
-        const itemInfo = datas.find((data) => data.id === item.product_id);
+      const itemInfo = datas.find((data) => data.id === item.product_id);
 
-        cartItem.innerHTML = `
+      cartItem.innerHTML = `
       <div class="image">
         <img src=${itemInfo.image} alt="">
       </div>
@@ -115,10 +136,10 @@ async function main() {
           <span class="count">${item.quantity}</span>
           <span class="plus">+</span>
       </div>
+      <i class="fa-solid fa-trash trash"></i>
       `;
-        cartList.appendChild(cartItem);
-      });
-    }
+      cartList.appendChild(cartItem);
+    });
   }
 }
 
