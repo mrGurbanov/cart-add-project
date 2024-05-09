@@ -17,26 +17,45 @@
         <div class="logo">
             SHOPPING
         </div>
+        <div class="search">
+            <input type="text">
+            <button class="search_btn">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </div>
         <button class="cart_icon">
             <i class="fa-solid fa-cart-shopping"></i>
             <span>0</span>
         </button>
     </header>
 
-    <div class="product_list">
-        Loading...
-        <!-- <div class="product" data-id="1">
-            <img width="200" height="200" src="https://m.media-amazon.com/images/I/619f09kK7tL._AC_UF894,1000_QL80_.jpg"
-                alt="">
-            <h3>PRODUCT NAME</h3>
-            <p>2500 ₼</p>
-            <button class="add_to_cart_btn">ADD TO CART</button>
-        </div> -->
+    <div class="product_list_wrapper">
+        <div style="margin-bottom: 32px;">
+            <div></div>
+            <select class="sorting">
+                <option value="default" selected>-- Seçin --</option>
+                <option value="cheap">Ucuzdan bahaya</option>
+                <option value="expensive">Bahadan ucuza</option>
+            </select>
+        </div>
+        <div class="product_list">
+            Loading...
+            <!-- <div class="product" data-id="1">
+                <img width="200" height="200" src="https://m.media-amazon.com/images/I/619f09kK7tL._AC_UF894,1000_QL80_.jpg"
+                    alt="">
+                <h3>PRODUCT NAME</h3>
+                <p>2500 ₼</p>
+                <button class="add_to_cart_btn">ADD TO CART</button>
+            </div> -->
+        </div>
     </div>
 
     <div class="cart_tab">
         <h2>SHOPPING CART</h2>
-        <h4>Total price: <span class="total_price">0</span> azn</h4>
+        <div class="sub_header">
+            <h4>Total price: <span class="total_price">0</span> azn</h4>
+            <button class="reset_cart_btn">Reset cart</button>
+        </div>
         <div class="cart_list">
             Cart is empty
             <!-- <div class="cart_item">
